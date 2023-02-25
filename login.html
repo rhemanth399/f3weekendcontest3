@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        .error{
+            color: red;
+        }
+    </style>
+</head>
+<body>
+       <p class="error"></p>
+       <form class="login">
+           <fieldset>
+
+            <legend>Login Form</legend>
+             <label for="email">Email</label><br>
+             <input type="email" name="email" id="email" placeholder="Enter your Email">
+             <br><br>
+             <label for="password">Password</label><br>
+             <input type="password" name="password" id="password" placeholder="Enter your password">
+             <br><br>
+
+             <input type="submit">
+
+            </fieldset>
+       </form>
+
+       <script>
+          let login_form  = document.querySelector('.login');
+            let error = document.querySelector('.error');
+
+          login_form.addEventListener('submit', loginForm)
+          let login_email = document.querySelector('#email');
+          let login_password = document.querySelector('#password');
+          let data;
+         
+          function loginForm(e){
+            e.preventDefault();
+            data = JSON.parse(localStorage.getItem("data"));
+            console.log(data)
+            // for(let i in data){
+            //     if(i.email == lgin)
+            // }
+            let email = login_email.value;
+            let password = login_password.value;
+            let cases = ["Email not found", "Password Incorrect", "Login Successful"]
+             let x = LoginCheck(email, password)
+              if(x==0 || x==1){
+                    error.innerHTML = cases[x]
+              }
+              else{
+                    error.innerHTML = cases[x]   
+                    
+                    generateToken()
+                    window.location.href='dashboard.html'
+              }
+
+          }
+
+
+          function LoginCheck(email, password){
+            //console.log(email)
+            //console.log(password)
+            let flag = 0
+             data.forEach(function(t){
+                //console.log(t.email)
+                if(t.email === email){
+                    //console.log("ok")
+                    if(t.password === password){
+                       // console.log("ok2")
+                        flag = 2;
+                        return ;
+                    }
+                   flag = 1;
+                }
+             })
+            return flag;
+             
+          }
+          function generateToken(){
+             let capital_digit = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" 
+             let small_digit = "abcdefghijklmnopqrstuvwxyz" 
+              
+
+             let characters = capital_digit + small_digit
+
+             let token = ""
+             for(let i=0; i<16; i++){
+                 let random = Math.floor(Math.random()*characters.length) // 4
+                 token = token + characters[random]
+             }
+                alert( token) //  store the token in the perosn object who logged in
+          }
+          
+
+
+          
+
+
+        //   12345678@Rh
+       </script>
+</body>
+</html>

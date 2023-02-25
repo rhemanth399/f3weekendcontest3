@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #container{
+            display: flex;
+            flex-direction: column;
+            background-color: hotpink;
+            max-width: 300px;
+        }
+        input{
+            margin: 10px;
+        }
+        #cp{
+            width:110px;
+            height: 25px;
+            text-align: center;
+            margin: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Teachers dashboard</h2>
+    <h2>Password Changes</h2>
+    <form id="passwordChanged">
+        <div id="container">
+        <input type="password" placeholder="old password" id="op">
+        <input type="password" placeholder="new password" id="np" >
+        <input type="password" placeholder="confirm new password" id="cnp">
+        </div>
+        <button type="text" value="changepassword" id="cp"></button>
+    </form>
+    <button id="logout">Logout</button>
+    
+    <script>
+        let data=JSON.parse(localStorage.getItem('data'))
+        //console.log(data)
+        let names=document.createElement('p')
+        names.innerHTML=`welcome back:  ${data[0].name}`;
+        let email=document.createElement('p');
+        email.innerHTML=`Your email:  ${data[0].email}`
+        
+        document.body.prepend(names)
+        document.body.prepend(email)
+       // let data = JSON.parse(localStorage.getItem('data'));
+let oldPassword = data[0].password;
+let changePasswordButton = document.getElementById('cp');
+
+changePasswordButton.addEventListener('click', function() {
+  let enteredOldPassword = document.getElementById('op').value;
+  if (enteredOldPassword !== oldPassword) {
+    alert('Old password is incorrect');
+    return;
+  }
+  let newPassword = document.getElementById('np').value;
+  let confirmNewPassword = document.getElementById('cnp').value;
+  if (newPassword !== confirmNewPassword) {
+    alert('New password and confirm password do not match');
+    return;
+  }
+  data[0].password = newPassword;
+  localStorage.setItem('data', JSON.stringify(data));
+  alert('Password changed successfully');
+});
+
+let logoutButton = document.getElementById('logout');
+logoutButton.addEventListener('click', function() {
+ 
+  alert('Logout successful!');
+  window.location.href = 'login.html'; // Redirect to login page
+});
+
+console.log(data)
+    </script>
+</body>
+</html>
